@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://gigflow-i55t.onrender.com",
+  baseURL: "https://gigflow-1-7ms6.onrender.com",
   withCredentials: true,
 });
 
