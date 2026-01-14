@@ -11,6 +11,24 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+// ---------- CORS CONFIG (IMPORTANT) ----------
+app.use(
+  cors({
+    origin: [
+      "https://gigflowharshal.netlify.app", // frontend live
+      "http://localhost:5173"               // frontend local dev
+    ],
+    credentials: true,
+  })
+);
+
+// Required header for cookies/JWT + CORS
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 app.use(express.json());
 app.use(cookieParser());
 
