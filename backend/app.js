@@ -12,22 +12,28 @@ connectDB();
 
 const app = express();
 
-// ---------- CORS CONFIG (IMPORTANT) ----------
+const allowedOrigins = [
+  "https://gigflowharshal.netlify.app",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: [
-      "https://gigflowharshal.netlify.app", // frontend live
-      "http://localhost:5173"               // frontend local dev
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// Required header for cookies/JWT + CORS
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+// Handle preflight OPTIONS requests
+app.options("*", cors());
 
 app.use(express.json());
 app.use(cookieParser());
