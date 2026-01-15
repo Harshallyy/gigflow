@@ -3,15 +3,17 @@ import { useParams } from "react-router-dom";
 import api from "../api/axios";
 
 export default function GigDetail() {
-  const { id: gigId } = useParams();   
+  const { id: gigId } = useParams();
   const [gig, setGig] = useState(null);
   const [bids, setBids] = useState([]);
   const [message, setMessage] = useState("");
   const [price, setPrice] = useState("");
 
   useEffect(() => {
-    api.get(`/api/gigs/${gigId}`).then(res => {
-      setGig(res.data);
+    // ✅ 
+    api.get("/api/gigs").then(res => {
+      const found = res.data.find(g => g._id === gigId);
+      setGig(found);
     });
 
     api.get(`/api/bids/${gigId}`).then(res => setBids(res.data));
