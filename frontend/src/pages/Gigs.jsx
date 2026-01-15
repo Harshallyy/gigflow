@@ -20,14 +20,16 @@ export default function Gigs() {
           A modern freelance marketplace with secure hiring and real-time workflow.
         </p>
 
-        {gigs.length > 0 && (
-          <Link
-            to={`/gig/${gigs[0]._id}`}
-            className="glass-btn mt-8 inline-block"
-          >
-            View / Bid
-          </Link>
-        )}
+        {/* HERO VIEW / BID — hamesha visible */}
+        <Link
+          to={gigs.length > 0 ? `/gig/${gigs[0]._id}` : "#"}
+          className="glass-btn mt-8 inline-block"
+          onClick={(e) => {
+            if (gigs.length === 0) e.preventDefault();
+          }}
+        >
+          View / Bid
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 gap-4 max-w-4xl mx-auto mt-12">
@@ -36,6 +38,7 @@ export default function Gigs() {
             <h3 className="font-bold text-lg">{gig.title}</h3>
             <p className="text-gray-300">₹ {gig.budget}</p>
 
+            {/* CARD VIEW / BID */}
             <Link
               to={`/gig/${gig._id}`}
               className="mt-3 inline-block text-blue-400"
