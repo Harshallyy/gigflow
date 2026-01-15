@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import api from "../api/axios";
 
 export default function GigDetail() {
+  const { id: gigId } = useParams();   
   const [gig, setGig] = useState(null);
   const [bids, setBids] = useState([]);
   const [message, setMessage] = useState("");
   const [price, setPrice] = useState("");
 
-  const gigId = window.location.pathname.split("/").pop();
-
   useEffect(() => {
-    api.get("/api/gigs").then(res => {
-      const found = res.data.find(g => g._id === gigId);
-      setGig(found);
+    api.get(`/api/gigs/${gigId}`).then(res => {
+      setGig(res.data);
     });
 
     api.get(`/api/bids/${gigId}`).then(res => setBids(res.data));
@@ -24,6 +23,7 @@ export default function GigDetail() {
       message,
       price,
     });
+
     const res = await api.get(`/api/bids/${gigId}`);
     setBids(res.data);
     setMessage("");
@@ -36,7 +36,7 @@ export default function GigDetail() {
     setBids(res.data);
   };
 
-  if (!gig) return null;
+  if (!gig) return <div className="text-center mt-20">Loading...</div>;
 
   return (
     <div className="max-w-5xl mx-auto mt-20 space-y-10">

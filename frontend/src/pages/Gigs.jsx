@@ -23,11 +23,7 @@ export default function Gigs() {
 
         <button
           className="glass-btn mt-8"
-          onClick={() => {
-            if (gigs.length > 0) {
-              navigate(`/gig/${gigs[0]._id}`);
-            }
-          }}
+          onClick={() => navigate("/")}
         >
           View / Bid
         </button>

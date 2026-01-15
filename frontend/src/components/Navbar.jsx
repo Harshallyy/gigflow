@@ -9,20 +9,20 @@ export default function Navbar() {
         GigFlow
       </h1>
 
-      <div className="space-x-3">
-        <button
-          className="glass-btn-outline"
+      <div className="space-x-4 text-sm">
+        <span
+          className="cursor-pointer text-gray-300 hover:text-white"
           onClick={() => navigate("/login")}
         >
           Login
-        </button>
+        </span>
 
-        <button
-          className="glass-btn-outline"
+        <span
+          className="cursor-pointer text-gray-300 hover:text-white"
           onClick={() => navigate("/register")}
         >
           Register
-        </button>
+        </span>
       </div>
     </div>
   );
