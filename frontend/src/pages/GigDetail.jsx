@@ -10,7 +10,6 @@ export default function GigDetail() {
   const [price, setPrice] = useState("");
 
   useEffect(() => {
-    // ✅ 
     api.get("/api/gigs").then(res => {
       const found = res.data.find(g => g._id === gigId);
       setGig(found);
@@ -20,22 +19,30 @@ export default function GigDetail() {
   }, [gigId]);
 
   const submitBid = async () => {
-    await api.post("/api/bids", {
-      gigId,
-      message,
-      price,
-    });
+    try {
+      await api.post("/api/bids", {
+        gigId,
+        message,
+        price,
+      });
 
-    const res = await api.get(`/api/bids/${gigId}`);
-    setBids(res.data);
-    setMessage("");
-    setPrice("");
+      const res = await api.get(`/api/bids/${gigId}`);
+      setBids(res.data);
+      setMessage("");
+      setPrice("");
+    } catch (err) {
+      alert("Login required to place bid");
+    }
   };
 
   const hireBid = async (bidId) => {
-    await api.patch(`/api/bids/${bidId}/hire`);
-    const res = await api.get(`/api/bids/${gigId}`);
-    setBids(res.data);
+    try {
+      await api.patch(`/api/bids/${bidId}/hire`);
+      const res = await api.get(`/api/bids/${gigId}`);
+      setBids(res.data);
+    } catch (err) {
+      alert("Login required to hire");
+    }
   };
 
   if (!gig) return <div className="text-center mt-20">Loading...</div>;
