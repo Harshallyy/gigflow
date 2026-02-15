@@ -33,13 +33,14 @@ export const login = async (req, res) => {
     const ok = await bcrypt.compare(req.body.password, user.password);
     if (!ok) return res.sendStatus(401);
 
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     res
-      .cookie("token", token, { httpOnly: true })
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
       .sendStatus(200);
   } catch (err) {
     res.sendStatus(500);
